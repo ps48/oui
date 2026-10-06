@@ -1,0 +1,29 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// AMOLED shape + motion layer -- the Honeycomb "feel".
+// MUST be imported BEFORE global_styling so these win over the `!default`
+// definitions in _borders.scss / _animations.scss. Scoped to the AMOLED theme
+// only; the classic `oui` theme never imports this file, so its shape is
+// unchanged (minimum-change tenet).
+
+// Rounder corners: calmer containers so the data carries the visual weight.
+// Classic OUI is 4px (near-square); Honeycomb-style softness is ~8px.
+$ouiBorderRadius: 8px;
+$ouiBorderRadiusSmall: 5px;
+
+// Motion: consistent, slightly smoother easing + a touch quicker baseline so
+// panels/popovers always open the same way. Durations stay within OUI's scale
+// so component timings remain coherent. prefers-reduced-motion is honored by
+// OUI's own mixins (which gate transitions on the media query).
+$ouiAnimSlightResistance: cubic-bezier(.2, .8, .2, 1); // smooth ease-out
+$ouiAnimSpeedFast: 120ms;
+$ouiAnimSpeedNormal: 200ms;

@@ -1,0 +1,39 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// AMOLED light mode inherits the default OUI light palette.
+@import 'themes/oui-amoled/oui_amoled_colors_light';
+
+// Shape + motion overrides (Honeycomb feel) -- MUST precede global_styling so
+// these win over the !default radius/motion tokens. Shape applies to both modes.
+@import 'themes/oui-amoled/oui_amoled_shape';
+
+// Global styling
+@import 'global_styling/index';
+
+// Data-viz magma ramp -- AFTER global_styling so it overrides the $ouiColorVis*
+// values derived from the colorblind palette map. Shared across both modes.
+@import 'themes/oui-amoled/oui_amoled_viz';
+
+// Components
+@import 'components/index';
+
+// Packages
+@import '../packages/index';
+
+/* During creation of the new theme, these rules had to be
+ * removed from the components. To make sure the theme retains
+ * its looks, they are reintroduced here.
+ */
+
+.ouiText blockquote {
+  font-family: Georgia, Times, Times New Roman, serif;
+}

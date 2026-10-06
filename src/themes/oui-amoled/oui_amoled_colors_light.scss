@@ -1,0 +1,15 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// AMOLED light mode stays first-class and intentionally inherits OUI's default
+// light palette (OUI is light by default), so light mode does not regress. The
+// AMOLED identity lives in the dark theme; shared shape changes (radius, motion)
+// land in global styling and apply to both modes.

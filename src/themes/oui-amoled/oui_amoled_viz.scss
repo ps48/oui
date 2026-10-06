@@ -1,0 +1,78 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// AMOLED data-viz ramp: a magma-inspired sequential scale, dark-mode tuned.
+// Rationale (Honeycomb finding): magma separates adjacent values better than the
+// legacy OUI categorical palette and survives colorblind filters (deuter/prot/
+// trit) better than a Viridis/green-heavy ramp. Low-count buckets stay visible
+// against the near-black (#0A0A0F) AMOLED surface instead of fading out.
+//
+// MUST be imported AFTER global_styling so these override the $ouiColorVis*
+// values derived from $ouiPaletteColorBlind (which carry !default). The map
+// itself has no !default, so overriding the derived vars is the correct scoped
+// path; code-block syntax colors that reference $ouiColorVis* follow along.
+//
+// Ramp (low -> high): deep plum -> magenta -> coral -> amber -> warm highlight.
+// 16 stops to preserve the OUI contract; graphic + a slightly brighter
+// behindText twin per stop.
+
+$ouiColorVis0:  #3D2871;
+$ouiColorVis1:  #581D74;
+$ouiColorVis2:  #89207E;
+$ouiColorVis3:  #99266B;
+$ouiColorVis4:  #AE2951;
+$ouiColorVis5:  #C42A33;
+$ouiColorVis6:  #DA402B;
+$ouiColorVis7:  #E2593B;
+$ouiColorVis8:  #E9754B;
+$ouiColorVis9:  #ED915D;
+$ouiColorVis10: #EEAE74;
+$ouiColorVis11: #ECC68C;
+$ouiColorVis12: #EBD7A5;
+$ouiColorVis13: #EAE0BD;
+$ouiColorVis14: #EEE8D0;
+$ouiColorVis15: #EFEEE7;
+
+// behindText variants: a touch brighter/desaturated so chips read on dark fills.
+$ouiColorVis0_behindText:  #4E2C74;
+$ouiColorVis1_behindText:  #5E3088;
+$ouiColorVis2_behindText:  #74369A;
+$ouiColorVis3_behindText:  #8E3684;
+$ouiColorVis4_behindText:  #AA3889;
+$ouiColorVis5_behindText:  #C83E7B;
+$ouiColorVis6_behindText:  #E24E6E;
+$ouiColorVis7_behindText:  #F26261;
+$ouiColorVis8_behindText:  #FF7C55;
+$ouiColorVis9_behindText:  #FF9850;
+$ouiColorVis10_behindText: #FFB45A;
+$ouiColorVis11_behindText: #FFCE70;
+$ouiColorVis12_behindText: #FFE187;
+$ouiColorVis13_behindText: #FFEEA8;
+$ouiColorVis14_behindText: #FFF6CC;
+$ouiColorVis15_behindText: #FFFCEC;
+
+/* OUI -> EUI aliases for the viz ramp (OSD consumes $euiColorVis*) */
+$euiColorVis0: $ouiColorVis0;
+$euiColorVis1: $ouiColorVis1;
+$euiColorVis2: $ouiColorVis2;
+$euiColorVis3: $ouiColorVis3;
+$euiColorVis4: $ouiColorVis4;
+$euiColorVis5: $ouiColorVis5;
+$euiColorVis6: $ouiColorVis6;
+$euiColorVis7: $ouiColorVis7;
+$euiColorVis8: $ouiColorVis8;
+$euiColorVis9: $ouiColorVis9;
+$euiColorVis10: $ouiColorVis10;
+$euiColorVis11: $ouiColorVis11;
+$euiColorVis12: $ouiColorVis12;
+$euiColorVis13: $ouiColorVis13;
+$euiColorVis14: $ouiColorVis14;
+$euiColorVis15: $ouiColorVis15;
