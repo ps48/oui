@@ -31,6 +31,8 @@
 @import 'components/index';
 // shadcn-style component refinements -- AFTER components so they win.
 @import 'themes/oui-amoled/oui_amoled_components';
+// shadcn-style enter/exit motion, reduced-motion aware.
+@import 'themes/oui-amoled/oui_amoled_motion';
 
 // Packages
 @import '../packages/index';
