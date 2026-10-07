@@ -57,7 +57,23 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
   }
 }
 
-// 3. Native widgets (number spinners, date/time pickers, scrollbars) follow
+// 3. Tabs: rounded, slightly inset selection indicator (shadcn underline tab).
+.ouiTab.ouiTab-isSelected::after {
+  border-radius: $ouiBorderWidthThick;
+}
+
+// 4. Badges: rounded-md instead of a near-square 2px corner.
+.ouiBadge {
+  border-radius: $ouiBorderRadiusSmall;
+}
+
+// 5. Empty/ghost-style buttons carry no shadow at rest (shadcn `ghost`).
+.ouiButtonEmpty,
+.ouiButtonIcon--empty {
+  box-shadow: none;
+}
+
+// 6. Native widgets (number spinners, date/time pickers, scrollbars) follow
 //    the theme instead of rendering as bright OS-default squares.
 :root {
   color-scheme: lightOrDarkTheme(light, dark);

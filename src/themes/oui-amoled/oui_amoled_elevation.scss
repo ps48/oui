@@ -1,0 +1,78 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// AMOLED elevation scale (shadcn / Tailwind shadow-sm..xl).
+// Imported AFTER global_styling and BEFORE components: Sass resolves a mixin
+// at @include time, so redefining these here re-skins every component that
+// uses them without touching component files. Signatures match the originals
+// so all existing call sites keep compiling. Classic `oui` never imports this.
+//
+// Classic OUI stacks 4-6 hard, same-opacity layers; shadcn uses two soft
+// layers with a negative spread, which reads as "lifted" not "smudged".
+
+// sass-lint:disable no-color-literals, indentation
+
+@mixin ouiSlightShadow($color: $ouiShadowColor, $opacity: .3) {
+  // shadow-sm
+  box-shadow: 0 1px 2px 0 rgba($color, $opacity * .2);
+}
+
+@mixin ouiSlightShadowHover($color: $ouiShadowColor, $opacity: .3) {
+  // shadow (one step up from rest)
+  box-shadow:
+    0 1px 3px 0 rgba($color, $opacity * .35),
+    0 1px 2px -1px rgba($color, $opacity * .35);
+}
+
+@mixin ouiBottomShadowSmall($color: $ouiShadowColor, $opacity: .3) {
+  // shadow
+  box-shadow:
+    0 1px 3px 0 rgba($color, $opacity * .35),
+    0 1px 2px -1px rgba($color, $opacity * .35);
+}
+
+@mixin ouiBottomShadowMedium($color: $ouiShadowColor, $opacity: .2) {
+  // shadow-md
+  box-shadow:
+    0 4px 6px -1px rgba($color, $opacity * .5),
+    0 2px 4px -2px rgba($color, $opacity * .5);
+}
+
+@mixin ouiBottomShadowFlat($color: $ouiShadowColor, $opacity: .2) {
+  box-shadow:
+    0 0 6px -1px rgba($color, $opacity * .5),
+    0 0 2px 0 rgba($color, $opacity * .5);
+}
+
+@mixin ouiBottomShadow($color: $ouiShadowColorLarge, $opacity: .1, $adjustBorders: false) {
+  // shadow-lg
+  box-shadow:
+    0 10px 15px -3px rgba($color, $opacity),
+    0 4px 6px -4px rgba($color, $opacity);
+}
+
+@mixin ouiBottomShadowLarge(
+  $color: $ouiShadowColorLarge,
+  $opacity: .1,
+  $adjustBorders: false,
+  $reverse: false
+) {
+  // shadow-xl
+  @if ($reverse) {
+    box-shadow:
+      0 -20px 25px -5px rgba($color, $opacity),
+      0 -8px 10px -6px rgba($color, $opacity);
+  } @else {
+    box-shadow:
+      0 20px 25px -5px rgba($color, $opacity),
+      0 8px 10px -6px rgba($color, $opacity);
+  }
+}

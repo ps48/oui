@@ -23,6 +23,10 @@
 // values derived from the colorblind palette map. Shared across both modes.
 @import 'themes/oui-amoled/oui_amoled_viz';
 
+// Elevation scale (shadcn shadow-sm..xl) -- mixin redefinitions, so they must
+// sit after global_styling and before components.
+@import 'themes/oui-amoled/oui_amoled_elevation';
+
 // Components
 @import 'components/index';
 // shadcn-style component refinements -- AFTER components so they win.
