@@ -73,7 +73,18 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
   box-shadow: none;
 }
 
-// 6. Native widgets (number spinners, date/time pickers, scrollbars) follow
+// 6. Cozy density for tables: taller rows, roomier cells (shadcn table:
+//    py-3 px-4 equivalent at OUI's scale). Compressed tables keep their own
+//    padding so dense views stay dense.
+.ouiTable:not(.ouiTable--compressed) .ouiTableCellContent {
+  padding: 10px 12px;
+}
+
+.ouiTableRow:hover {
+  background-color: transparentize($ouiColorPrimary, .96);
+}
+
+// 7. Native widgets (number spinners, date/time pickers, scrollbars) follow
 //    the theme instead of rendering as bright OS-default squares.
 :root {
   color-scheme: lightOrDarkTheme(light, dark);

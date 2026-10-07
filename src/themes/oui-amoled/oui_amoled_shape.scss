@@ -27,6 +27,16 @@ $ouiFormControlBorderRadius: 6px;
 $ouiFormControlCompressedBorderRadius: 5px;
 $ouiFormControlBoxShadow: 0 0 0 0 transparent;
 
+// Cozy density (Honeycomb-style breathing room). Deliberately NOT changing the
+// $ouiSize base unit: OSD layouts and plugin code compute offsets from it, so a
+// global bump would shift every page. Only container padding grows.
+// Classic: s 8 / m 16 / l 24 -> AMOLED: s 12 / m 20 / l 32.
+$ouiPanelPaddingModifiers: (
+  'paddingSmall':  12px,
+  'paddingMedium': 20px,
+  'paddingLarge':  32px
+);
+
 // Motion: consistent, slightly smoother easing + a touch quicker baseline so
 // panels/popovers always open the same way. Durations stay within OUI's scale
 // so component timings remain coherent. prefers-reduced-motion is honored by
