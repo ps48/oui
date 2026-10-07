@@ -25,6 +25,8 @@
 
 // Components
 @import 'components/index';
+// shadcn-style component refinements -- AFTER components so they win.
+@import 'themes/oui-amoled/oui_amoled_components';
 
 // Packages
 @import '../packages/index';

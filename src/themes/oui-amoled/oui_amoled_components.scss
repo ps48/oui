@@ -1,0 +1,64 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// AMOLED component refinements (shadcn-style). Imported AFTER components so
+// these rules win by source order. Scoped to the AMOLED theme bundles only.
+
+// Every text-like form control shares one even 1px ring.
+$ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .ouiFieldSearch, .ouiSelect, .ouiTextArea, .ouiSuperSelectControl, .ouiFilePicker__prompt, .ouiComboBox .ouiComboBox__inputWrap';
+
+// 1. Smooth focus: classic OUI paints a 2px square-cut underline via a
+//    background gradient, which clips against rounded corners. Replace it with
+//    a ring that follows the radius (shadcn `ring` pattern).
+#{$ouiAmoledFormControls} {
+  &:focus,
+  &:focus-within {
+    background-image: none;
+    background-size: 0 0;
+    box-shadow:
+      inset 0 0 0 1px $ouiColorPrimary,
+      0 0 0 3px transparentize($ouiColorPrimary, .75);
+  }
+}
+
+// 2. Input groups (prepend/append): the wrapper is rounded, but the
+//    prepend/append children are square and poke into the corners. Clip the
+//    children to the wrapper radius so all four corners are one curve.
+.ouiFormControlLayout--group {
+  border-radius: $ouiFormControlBorderRadius;
+  overflow: hidden;
+
+  .ouiFormControlLayout__prepend:first-child,
+  .ouiFormControlLayout__append:first-child {
+    border-radius: ($ouiFormControlBorderRadius - 1px) 0 0 ($ouiFormControlBorderRadius - 1px);
+  }
+
+  .ouiFormControlLayout__prepend:last-child,
+  .ouiFormControlLayout__append:last-child {
+    border-radius: 0 ($ouiFormControlBorderRadius - 1px) ($ouiFormControlBorderRadius - 1px) 0;
+  }
+
+  &.ouiFormControlLayout--compressed {
+    border-radius: $ouiFormControlCompressedBorderRadius;
+  }
+
+  &:focus-within {
+    box-shadow:
+      inset 0 0 0 1px $ouiColorPrimary,
+      0 0 0 3px transparentize($ouiColorPrimary, .75);
+  }
+}
+
+// 3. Native widgets (number spinners, date/time pickers, scrollbars) follow
+//    the theme instead of rendering as bright OS-default squares.
+:root {
+  color-scheme: lightOrDarkTheme(light, dark);
+}
