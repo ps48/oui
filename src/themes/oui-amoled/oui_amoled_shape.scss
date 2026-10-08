@@ -34,9 +34,14 @@ $ouiFormBackgroundColor: $ouiColorEmptyShade;
 $ouiFormBorderColor: $ouiColorLightShade;
 $ouiFormInputGroupLabelBackground: $ouiColorLightestShade;
 
-// shadcn checkbox: 4px corners, same hairline as inputs.
+// shadcn checkbox: 4px corners. An unchecked checkbox or radio is identified
+// only by its outline, so it needs >= 3:1 against the surface (WCAG 1.4.11);
+// the input hairline ($ouiColorLightShade, ~1.3:1) would make it vanish.
+// Dark #6B7080: 4.0:1 on the panel. Light #878F9C: 3.3:1 on white.
 $ouiCheckboxBorderRadius: 4px;
-$ouiFormCustomControlBorderColor: $ouiColorLightShade;
+$ouiAmoledControlOutlineDark: #6B7080;
+$ouiAmoledControlOutlineLight: #878F9C;
+$ouiFormCustomControlBorderColor: if(lightness($ouiColorEmptyShade) < 50%, $ouiAmoledControlOutlineDark, $ouiAmoledControlOutlineLight);
 
 // Cozy density (Honeycomb-style breathing room). Deliberately NOT changing the
 // $ouiSize base unit: OSD layouts and plugin code compute offsets from it, so a
