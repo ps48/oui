@@ -27,6 +27,13 @@ $ouiFormControlBorderRadius: 6px;
 $ouiFormControlCompressedBorderRadius: 5px;
 $ouiFormControlBoxShadow: 0 0 0 0 transparent;
 
+// shadcn `input`: the control sits on the surface color with a quiet hairline,
+// instead of OUI's tinted gray fill. Group labels (prepend/append) keep a
+// lifted fill so they still read as labels.
+$ouiFormBackgroundColor: $ouiColorEmptyShade;
+$ouiFormBorderColor: $ouiColorLightShade;
+$ouiFormInputGroupLabelBackground: $ouiColorLightestShade;
+
 // Cozy density (Honeycomb-style breathing room). Deliberately NOT changing the
 // $ouiSize base unit: OSD layouts and plugin code compute offsets from it, so a
 // global bump would shift every page. Only container padding grows.

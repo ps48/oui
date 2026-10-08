@@ -13,3 +13,9 @@
 // light palette (OUI is light by default), so light mode does not regress. The
 // AMOLED identity lives in the dark theme; shared shape changes (radius, motion)
 // land in global styling and apply to both modes.
+
+// Surface shades, pinned to OUI's own light defaults (no visual change) so the
+// shared shape layer can derive form tokens from them before globals load.
+$ouiColorEmptyShade: #FFF;
+$ouiColorLightestShade: #F5F7FA;
+$ouiColorLightShade: #D3DAE6;
