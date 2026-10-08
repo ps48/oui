@@ -25,6 +25,23 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
     background-size: 0 0;
     box-shadow: inset 0 0 0 1px $ouiColorPrimary, 0 0 0 3px transparentize($ouiColorPrimary, .75);
   }
+
+  // 1b. Invalid state: same problem as focus -- OUI draws a 2px square-cut
+  //     danger underline via background-image. Use a radius-following 1px
+  //     danger ring instead.
+  &:invalid,
+  &.ouiFieldText-isInvalid,
+  &.ouiSuperSelectControl-isInvalid {
+    background-image: none;
+    background-size: 0 0;
+    box-shadow: inset 0 0 0 1px $ouiColorDanger;
+  }
+}
+
+.ouiComboBox.ouiComboBox-isInvalid .ouiComboBox__inputWrap {
+  background-image: none;
+  background-size: 0 0;
+  box-shadow: inset 0 0 0 1px $ouiColorDanger;
 }
 
 // 2. Input groups (prepend/append): the wrapper is rounded, but the
