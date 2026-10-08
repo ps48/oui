@@ -69,6 +69,7 @@ $ouiAmoledEaseIn: cubic-bezier(.7, 0, .84, 0);
 
   // Tooltip: fade + zoom, quick.
   .ouiToolTip {
+    --ouiToolTipExitDuration: 100;
     animation-name: ouiAmoledZoomIn;
     animation-duration: $ouiAnimSpeedFast;
     animation-timing-function: $ouiAmoledEaseOut;
@@ -169,5 +170,26 @@ $ouiAmoledEaseIn: cubic-bezier(.7, 0, .84, 0);
   .ouiTab.ouiTab-isSelected::after,
   .ouiComboBoxOptionsList {
     animation: none;
+  }
+}
+
+// Tooltip exit: OuiToolTip reads --ouiToolTipExitDuration (ms) and keeps the
+// tooltip mounted with .ouiToolTip-isClosing for that long before unmounting.
+// Classic themes never set it, so they unmount immediately as before.
+@keyframes ouiAmoledZoomOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(.96);
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .ouiToolTip.ouiToolTip-isClosing {
+    animation: ouiAmoledZoomOut 100ms $ouiAmoledEaseIn forwards;
   }
 }

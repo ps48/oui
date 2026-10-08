@@ -138,6 +138,7 @@ export interface OuiToolTipProps {
 
 interface State {
   visible: boolean;
+  isClosing: boolean;
   calculatedPosition: ToolTipPositions;
   toolTipStyles: ToolTipStyles;
   arrowStyles: undefined | { left: number; top: number };
@@ -149,9 +150,11 @@ export class OuiToolTip extends Component<OuiToolTipProps, State> {
   anchor: null | HTMLElement = null;
   popover: null | HTMLElement = null;
   private timeoutId?: ReturnType<typeof setTimeout>;
+  private closeTimeoutId?: ReturnType<typeof setTimeout>;
 
   state: State = {
     visible: false,
+    isClosing: false,
     calculatedPosition: this.props.position,
     toolTipStyles: DEFAULT_TOOLTIP_STYLES,
     arrowStyles: undefined,
@@ -173,8 +176,30 @@ export class OuiToolTip extends Component<OuiToolTipProps, State> {
     this._isMounted = true;
   }
 
+  clearCloseTimeout = () => {
+    if (this.closeTimeoutId) {
+      this.closeTimeoutId = clearTimeout(this.closeTimeoutId) as undefined;
+    }
+  };
+
+  /**
+   * Themes may opt into an exit animation by setting the
+   * `--ouiToolTipExitDuration` custom property (in ms) on `.ouiToolTip`.
+   * Themes that do not set it get 0, i.e. the tooltip unmounts immediately.
+   */
+  getExitDuration = () => {
+    if (!this.popover || typeof window === 'undefined') return 0;
+    const value = parseFloat(
+      window
+        .getComputedStyle(this.popover)
+        .getPropertyValue('--ouiToolTipExitDuration')
+    );
+    return isNaN(value) || value < 0 ? 0 : value;
+  };
+
   componentWillUnmount() {
     this.clearAnimationTimeout();
+    this.clearCloseTimeout();
     this._isMounted = false;
     window.removeEventListener('mousemove', this.hasFocusMouseMoveListener);
   }
@@ -214,6 +239,12 @@ export class OuiToolTip extends Component<OuiToolTipProps, State> {
   };
 
   showToolTip = () => {
+    if (this.state.isClosing) {
+      // Re-entered while the exit animation is playing: keep it open.
+      this.clearCloseTimeout();
+      this.setState({ isClosing: false });
+      return;
+    }
     if (!this.timeoutId) {
       this.timeoutId = setTimeout(() => {
         enqueueStateChange(() => this.setState({ visible: true }));
@@ -268,9 +299,20 @@ export class OuiToolTip extends Component<OuiToolTipProps, State> {
   hideToolTip = () => {
     this.clearAnimationTimeout();
     enqueueStateChange(() => {
-      if (this._isMounted) {
-        this.setState({ visible: false });
+      if (!this._isMounted || !this.state.visible) return;
+      const exitDuration = this.getExitDuration();
+      if (exitDuration === 0) {
+        this.setState({ visible: false, isClosing: false });
+        return;
       }
+      if (this.state.isClosing) return;
+      this.setState({ isClosing: true });
+      this.closeTimeoutId = setTimeout(() => {
+        this.closeTimeoutId = undefined;
+        if (this._isMounted) {
+          this.setState({ visible: false, isClosing: false });
+        }
+      }, exitDuration);
     });
   };
 
@@ -318,6 +360,7 @@ export class OuiToolTip extends Component<OuiToolTipProps, State> {
     const classes = classNames(
       'ouiToolTip',
       positionsToClassNameMap[this.state.calculatedPosition],
+      { 'ouiToolTip-isClosing': this.state.isClosing },
       className
     );
 
