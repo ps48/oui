@@ -114,7 +114,9 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
 
   &:not(.ouiButton--fill):not(.ouiButton--ghost):not([class*='isDisabled']) {
     border-color: $ouiBorderColor;
-    background-color: $ouiColorEmptyShade;
+    // Transparent at rest (not the panel color): consumers such as OSD's data
+    // source picker layer a label and chevron underneath the button.
+    background-color: transparent;
 
     &:hover,
     &:focus,
