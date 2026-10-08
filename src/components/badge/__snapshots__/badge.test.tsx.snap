@@ -4,7 +4,7 @@ exports[`OuiBadge is disabled 1`] = `
 <div>
   <span
     aria-label="aria-label"
-    class="ouiBadge ouiBadge-isDisabled ouiBadge--iconLeft testClass1 testClass2"
+    class="ouiBadge ouiBadge-isDisabled ouiBadge--colorDefault ouiBadge--iconLeft testClass1 testClass2"
     data-test-subj="test subject string"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
     title="Content"
@@ -26,7 +26,7 @@ exports[`OuiBadge is rendered 1`] = `
 <div>
   <span
     aria-label="aria-label"
-    class="ouiBadge ouiBadge--iconLeft testClass1 testClass2"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft testClass1 testClass2"
     data-test-subj="test subject string"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
     title="Content"
@@ -47,7 +47,7 @@ exports[`OuiBadge is rendered 1`] = `
 exports[`OuiBadge is rendered with href and rel provided 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconLeft testClass1 testClass2"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft testClass1 testClass2"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
   >
     <span
@@ -72,7 +72,7 @@ exports[`OuiBadge is rendered with href provided 1`] = `
 <div>
   <a
     aria-label="aria-label"
-    class="ouiBadge ouiBadge-isClickable ouiBadge--iconLeft testClass1 testClass2"
+    class="ouiBadge ouiBadge-isClickable ouiBadge--colorDefault ouiBadge--iconLeft testClass1 testClass2"
     data-test-subj="test subject string"
     href="/#/"
     rel="noreferrer"
@@ -95,7 +95,7 @@ exports[`OuiBadge is rendered with href provided 1`] = `
 exports[`OuiBadge is rendered with iconOnClick and href provided 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconLeft testClass1 testClass2"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft testClass1 testClass2"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
   >
     <span
@@ -119,7 +119,7 @@ exports[`OuiBadge is rendered with iconOnClick and href provided 1`] = `
 exports[`OuiBadge is rendered with iconOnClick and onClick provided 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconLeft testClass1 testClass2"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft testClass1 testClass2"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
   >
     <span
@@ -142,7 +142,7 @@ exports[`OuiBadge is rendered with iconOnClick provided 1`] = `
 <div>
   <span
     aria-label="aria-label"
-    class="ouiBadge ouiBadge--iconLeft testClass1 testClass2"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft testClass1 testClass2"
     data-test-subj="test subject string"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
     title="Content"
@@ -164,7 +164,7 @@ exports[`OuiBadge is rendered with onClick provided 1`] = `
 <div>
   <button
     aria-label="aria-label"
-    class="ouiBadge ouiBadge-isClickable ouiBadge--iconLeft testClass1 testClass2"
+    class="ouiBadge ouiBadge-isClickable ouiBadge--colorDefault ouiBadge--iconLeft testClass1 testClass2"
     data-test-subj="test subject string"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
     title="Content"
@@ -265,7 +265,7 @@ exports[`OuiBadge props color danger is rendered 1`] = `
 exports[`OuiBadge props color default is rendered 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconLeft"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
     title="Content"
   >
@@ -365,7 +365,7 @@ exports[`OuiBadge props color warning is rendered 1`] = `
 exports[`OuiBadge props iconSide left is rendered 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconLeft"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
     title="Content"
   >
@@ -390,7 +390,7 @@ exports[`OuiBadge props iconSide left is rendered 1`] = `
 exports[`OuiBadge props iconSide right is rendered 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconRight"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconRight"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
     title="Content"
   >
@@ -415,7 +415,7 @@ exports[`OuiBadge props iconSide right is rendered 1`] = `
 exports[`OuiBadge props iconType is rendered 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconLeft"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0);"
     title="Content"
   >
@@ -440,7 +440,7 @@ exports[`OuiBadge props iconType is rendered 1`] = `
 exports[`OuiBadge props style is rendered 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconLeft"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0); border: 4px solid tomato;"
     title="Content"
   >
@@ -500,7 +500,7 @@ exports[`OuiBadge props style is rendered with danger 1`] = `
 exports[`OuiBadge props style is rendered with default 1`] = `
 <div>
   <span
-    class="ouiBadge ouiBadge--iconLeft"
+    class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft"
     style="background-color: rgb(211, 218, 230); color: rgb(0, 0, 0); border: 4px solid tomato;"
     title="Content"
   >

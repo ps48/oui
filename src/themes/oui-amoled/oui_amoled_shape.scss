@@ -31,7 +31,10 @@ $ouiFormControlBoxShadow: 0 0 0 0 transparent;
 // instead of OUI's tinted gray fill. Group labels (prepend/append) keep a
 // lifted fill so they still read as labels.
 $ouiFormBackgroundColor: $ouiColorEmptyShade;
-$ouiFormBorderColor: $ouiColorLightShade;
+// Dark: #40434E (2.0:1 on the panel) instead of the 1.3:1 divider hairline,
+// so empty inputs, selects and textareas stay findable on true black.
+$ouiAmoledFormBorderDark: #40434E;
+$ouiFormBorderColor: if(lightness($ouiColorEmptyShade) < 50%, $ouiAmoledFormBorderDark, $ouiColorLightShade);
 $ouiFormInputGroupLabelBackground: $ouiColorLightestShade;
 
 // shadcn checkbox: 4px corners. An unchecked checkbox or radio is identified
@@ -60,3 +63,4 @@ $ouiPanelPaddingModifiers: (
 $ouiAnimSlightResistance: cubic-bezier(.2, .8, .2, 1); // smooth ease-out
 $ouiAnimSpeedFast: 120ms;
 $ouiAnimSpeedNormal: 200ms;
+

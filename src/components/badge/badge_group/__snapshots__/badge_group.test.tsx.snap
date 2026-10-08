@@ -28,7 +28,7 @@ exports[`OuiBadgeGroup is rendered 1`] = `
     class="ouiBadgeGroup__item"
   >
     <span
-      class="ouiBadge ouiBadge--iconLeft"
+      class="ouiBadge ouiBadge--colorDefault ouiBadge--iconLeft"
       style="background-color:#d3dae6;color:#000"
     >
       <span

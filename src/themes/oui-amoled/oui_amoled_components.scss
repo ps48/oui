@@ -397,3 +397,54 @@ $ouiAmoledMenuHover: transparentize($ouiTextColor, .92);
 .ouiCheckableCard .ouiPanel--subdued {
   background-color: lightOrDarkTheme($ouiPageBackgroundColor, $ouiColorLightestShade);
 }
+
+// 21. Data grid toolbar and the collapsible nav "dark" group sit on the page
+//     color. Inside a raised panel on true black that is a hole (toolbar) or
+//     invisible (nav group), so lift both to the raised surface in dark.
+.ouiDataGrid__controls {
+  background: lightOrDarkTheme($ouiPageBackgroundColor, $ouiColorLightestShade);
+}
+
+.ouiCollapsibleNavGroup--dark {
+  background-color: lightOrDarkTheme($ouiCollapsibleNavGroupDarkBackgroundColor, $ouiColorLightestShade);
+}
+
+// 22. Beacon (also the tour's step marker): classic uses $ouiColorVis0, which
+//     in AMOLED is the darkest magma stop (1.3:1 on the panel). Use the first
+//     categorical chart color instead (dark 4.0:1, light 7.9:1).
+$ouiAmoledBeaconColor: nth($ouiThemePaletteColorBlind, 1);
+
+.ouiBeacon {
+  background-color: $ouiAmoledBeaconColor;
+
+  &:before,
+  &:after {
+    box-shadow: 0 0 1px 1px $ouiAmoledBeaconColor;
+  }
+}
+
+// 23. Tooltips and the range value bubble: the lifted dark surface needs an
+//     edge to separate from black.
+.ouiToolTip,
+.ouiRangeTooltip__value {
+  border: 1px solid lightOrDarkTheme($ouiTooltipBackgroundColor, $ouiAmoledFormBorderDark);
+}
+
+// 24. Side nav tree guide lines: the 1.3:1 divider hairline vanishes on the
+//     true-black page; use the form border weight in dark.
+.ouiSideNavItem--branch::after,
+.ouiSideNavItem--branch > .ouiSideNavItemButton::after {
+  background: lightOrDarkTheme($ouiBorderColor, $ouiAmoledFormBorderDark);
+}
+
+// 25. Default badge: OuiBadge paints it inline with a fixed light gray in
+//     every theme, a bright chip on true black. In dark use the raised
+//     surface with light text (11.6:1). Inline styles need !important.
+$ouiAmoledBadgeDefaultLight: #D3DAE6; // OuiBadge's inline default, unchanged
+
+.ouiBadge--colorDefault {
+  // sass-lint:disable-block no-important
+  background-color: lightOrDarkTheme($ouiAmoledBadgeDefaultLight, $ouiAmoledTooltipDark) !important;
+  color: lightOrDarkTheme($ouiColorFullShade, $ouiTextColor) !important;
+  border-color: lightOrDarkTheme(transparent, $ouiAmoledFormBorderDark) !important;
+}

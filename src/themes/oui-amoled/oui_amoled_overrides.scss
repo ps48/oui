@@ -1,0 +1,38 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// Component-variable overrides that depend on the full base palette
+// (accent, primary, page color), so they are imported AFTER global_styling
+// and BEFORE components, which is where these variables are consumed.
+// Off switch track. Light: a solid #B4BCC8 (1.9:1 on white) instead of a 20%
+// gray wash that disappears on white; the white knob and its shadow read on it.
+$ouiAmoledSwitchOffLight: #B4BCC8;
+$ouiSwitchOffColor: if(lightness($ouiColorEmptyShade) < 50%, transparentize($ouiColorMediumShade, .3), $ouiAmoledSwitchOffLight);
+
+// Tooltip. Classic dark shades it to pure black, which is the AMOLED page
+// color; lift it to a raised surface (the border is added in components).
+$ouiAmoledTooltipDark: #26282F;
+$ouiTooltipBackgroundColor: if(lightness($ouiColorEmptyShade) < 50%, $ouiAmoledTooltipDark, tintOrShade($ouiColorFullShade, 25%, 100%));
+
+// 'subdued' panels use the page color. On a true-black page that is a hole
+// when the panel sits inside a raised one (cards, empty prompts, page
+// templates). shadcn's `muted` is a step LIGHTER than the card, so in dark
+// use the lifted surface; light keeps the classic page tint.
+$ouiPanelBackgroundColorModifiers: (
+  'transparent': transparent,
+  'plain': $ouiColorEmptyShade,
+  'subdued': if(lightness($ouiColorEmptyShade) < 50%, $ouiColorLightestShade, $ouiPageBackgroundColor),
+  'accent':  tintOrShade($ouiColorAccent, 90%, 70%),
+  'primary': tintOrShade($ouiColorPrimary, 90%, 70%),
+  'success': tintOrShade($ouiColorSuccess, 90%, 70%),
+  'warning': tintOrShade($ouiColorWarning, 90%, 70%),
+  'danger':  tintOrShade($ouiColorDanger, 90%, 70%),
+);

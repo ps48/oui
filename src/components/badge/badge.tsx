@@ -224,6 +224,8 @@ export const OuiBadge: FunctionComponent<OuiBadgeProps> = ({
       'ouiBadge-isClickable': (onClick || href) && !iconOnClick,
       'ouiBadge-isDisabled': isDisabled,
       'ouiBadge--hollow': color === 'hollow',
+      // Hook for themes; the default color itself is still set inline.
+      'ouiBadge--colorDefault': color === 'default',
     },
     iconSideToClassNameMap[iconSide],
     className

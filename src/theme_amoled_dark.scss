@@ -24,6 +24,8 @@
 @import 'themes/oui-amoled/oui_amoled_viz';
 // Categorical chart palette for the JS ouiPaletteColorBlind() service.
 @import 'themes/oui-amoled/oui_amoled_palette';
+// Component variables that need the full base palette.
+@import 'themes/oui-amoled/oui_amoled_overrides';
 
 // Elevation scale (shadcn shadow-sm..xl) -- mixin redefinitions, so they must
 // sit after global_styling and before components.
