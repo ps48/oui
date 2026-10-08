@@ -1,0 +1,67 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// AMOLED categorical chart palette.
+//
+// Charts get their series colors from the JS `ouiPaletteColorBlind()`
+// service, not from Sass. A theme hands that service its own base colors
+// through the `--ouiPaletteColorBlind` custom property on :root; themes that
+// do not set it keep the classic palette.
+//
+// The magma ramp ($ouiColorVis*, oui_amoled_viz) stays the SEQUENTIAL
+// palette; categorical series need clearly different hues instead.
+//
+// Hues follow IBM Carbon's categorical sequences (Apache-2.0), one per mode,
+// because they were built for neighbouring series on dark and light surfaces.
+// Checked by scripts/validate-amoled-viz.py: >= 3:1 against every AMOLED
+// surface (WCAG 1.4.11 graphics), and CIELAB dE >= 12 between neighbouring
+// series and >= 8 between any two series under protanopia, deuteranopia and
+// tritanopia. Keep exactly 10 colors: callers index the palette by position.
+
+$ouiAmoledPaletteCategoricalDark: (
+  #8A3FFC, // purple
+  #33B1FF, // cyan
+  #007D79, // teal
+  #FF7EB6, // magenta
+  #FA4D56, // red
+  #FFF1F1, // blush
+  #6FDC8C, // green
+  #4589FF, // blue
+  #D12771, // dark magenta
+  #D2A106  // yellow
+);
+
+$ouiAmoledPaletteCategoricalLight: (
+  #6929C4, // purple
+  #1192E8, // cyan
+  #005D5D, // teal
+  #9F1853, // magenta
+  #FA4D56, // red
+  #570408, // maroon
+  #198038, // green
+  #002D9C, // blue
+  #EE538B, // pink
+  #B28600  // yellow
+);
+
+$ouiAmoledPaletteCategorical: if(
+  lightness($ouiColorEmptyShade) < 50%,
+  $ouiAmoledPaletteCategoricalDark,
+  $ouiAmoledPaletteCategoricalLight
+);
+
+// Generic name, exported in the theme JSON, so hosts that start JS before
+// the theme CSS loads (OSD's bootstrap) can set the property early.
+$ouiThemePaletteColorBlind: $ouiAmoledPaletteCategorical;
+
+:root {
+  --ouiPaletteColorBlind: #{inspect($ouiThemePaletteColorBlind)};
+}

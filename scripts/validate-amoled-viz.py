@@ -20,6 +20,11 @@ the shipped values, and asserts:
    vision and simulated protanopia, deuteranopia and tritanopia (Machado et al.
    2009, severity 1.0). 5 is roughly two just-noticeable differences.
 
+4. The categorical chart palettes in oui_amoled_palette.scss (one per mode)
+   hold exactly 10 colors, each >= 3:1 against every surface of its mode
+   (WCAG 1.4.11 graphics), with dE >= 12 between neighbouring series and
+   dE >= 8 between any two series, under normal vision and all three CVDs.
+
 Exit code 0 on pass, 1 on any failure.
 """
 
@@ -30,6 +35,15 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 VIZ = ROOT / "src/themes/oui-amoled/oui_amoled_viz.scss"
+PALETTE = ROOT / "src/themes/oui-amoled/oui_amoled_palette.scss"
+# Surfaces a series can sit on: page, panel, lifted panel.
+CAT_SURFACES = {
+    "Dark": ("#000000", "#0A0A0F", "#15161B"),
+    "Light": ("#FFFFFF", "#F5F7FA"),
+}
+CAT_MIN_CONTRAST = 3.0
+CAT_MIN_ADJ_DE = 12.0
+CAT_MIN_ALL_DE = 8.0
 SURFACE = "#0A0A0F"
 MIN_CONTRAST = 1.6
 MIN_DELTA_E = 5.0
@@ -98,6 +112,45 @@ def load_ramp():
     return [h for _, h in stops]
 
 
+def load_categorical(mode):
+    text = PALETTE.read_text()
+    m = re.search(r"\$ouiAmoledPaletteCategorical" + mode + r":\s*\((.*?)\);", text, re.S)
+    if not m:
+        sys.exit(f"$ouiAmoledPaletteCategorical{mode} not found in {PALETTE}")
+    return re.findall(r"#[0-9A-Fa-f]{6}", m.group(1))
+
+
+def check_categorical():
+    failures = []
+    for mode, surfaces in CAT_SURFACES.items():
+        pal = load_categorical(mode)
+        if len(pal) != 10:
+            failures.append(f"categorical {mode}: {len(pal)} colors, expected 10")
+            continue
+        lins = [tuple(to_linear(c) for c in hex_to_rgb(h)) for h in pal]
+        worst_con = 1e9
+        for surf in surfaces:
+            sl = luminance(tuple(to_linear(c) for c in hex_to_rgb(surf)))
+            for h, l in zip(pal, lins):
+                c = contrast(luminance(l), sl)
+                worst_con = min(worst_con, c)
+                if c < CAT_MIN_CONTRAST:
+                    failures.append(f"categorical {mode} {h} vs {surf}: contrast {c:.2f} < {CAT_MIN_CONTRAST}")
+        summary = []
+        for name, matrix in [("normal", None)] + list(CVD.items()):
+            seen = [l if matrix is None else simulate(l, matrix) for l in lins]
+            adj = min(delta_e(seen[i], seen[i + 1]) for i in range(9))
+            allp = min(delta_e(seen[i], seen[j]) for i in range(10) for j in range(i + 1, 10))
+            summary.append(f"{name} adj {adj:.1f}/all {allp:.1f}")
+            if adj < CAT_MIN_ADJ_DE:
+                failures.append(f"categorical {mode} {name}: neighbour dE {adj:.1f} < {CAT_MIN_ADJ_DE}")
+            if allp < CAT_MIN_ALL_DE:
+                failures.append(f"categorical {mode} {name}: any-pair dE {allp:.1f} < {CAT_MIN_ALL_DE}")
+        print(f"categorical {mode}: {' '.join(pal)}")
+        print(f"  min contrast {worst_con:.2f}; " + ", ".join(summary))
+    return failures
+
+
 def main():
     ramp = load_ramp()
     lins = [tuple(to_linear(c) for c in hex_to_rgb(h)) for h in ramp]
@@ -124,6 +177,7 @@ def main():
                 failures.append(f"{name} stops {i - 1}->{i} "
                                 f"({ramp[i - 1]}->{ramp[i]}): dE {d:.1f} < {MIN_DELTA_E}")
 
+    failures += check_categorical()
     print(f"ramp: {' '.join(ramp)}")
     print(f"min contrast vs {SURFACE}: {min(contrasts):.2f}")
     print("min adjacent dE: " + ", ".join(f"{k} {v:.1f}" for k, v in worst.items()))

@@ -22,6 +22,8 @@
 // Data-viz magma ramp -- AFTER global_styling so it overrides the $ouiColorVis*
 // values derived from the colorblind palette map. Shared across both modes.
 @import 'themes/oui-amoled/oui_amoled_viz';
+// Categorical chart palette for the JS ouiPaletteColorBlind() service.
+@import 'themes/oui-amoled/oui_amoled_palette';
 
 // Elevation scale (shadcn shadow-sm..xl) -- mixin redefinitions, so they must
 // sit after global_styling and before components.

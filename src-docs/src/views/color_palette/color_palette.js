@@ -9,7 +9,7 @@
  * GitHub history for details.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 
 import {
   OuiFlexGroup,
@@ -25,8 +25,12 @@ import {
   ouiPaletteColorBlindBehindText,
 } from '../../../../src/services';
 import { ColorPaletteFlexItem, ColorPaletteCopyCode } from './shared';
+import { ThemeContext } from '../../components';
 
-const customPalettes = [
+// Built per render: themes may swap the base colors at runtime through the
+// --ouiPaletteColorBlind custom property, so the palette must not be frozen
+// at module load.
+const getCustomPalettes = () => [
   {
     title: 'Max 10 colors',
     palette: ouiPaletteColorBlind(),
@@ -66,62 +70,71 @@ const customPalettes = [
   },
 ];
 
-export default () => (
-  <Fragment>
-    {customPalettes.map((palette) => (
-      <Fragment key={palette.title}>
-        <OuiTitle size="xxs">
-          <h3>{palette.title}</h3>
-        </OuiTitle>
-        <OuiSpacer size="s" />
-        <OuiFlexGroup alignItems="center">
-          <OuiFlexItem grow={false} style={{ maxWidth: 240 }}>
-            <OuiFlexGroup
-              className="guideColorPalette__swatchHolder"
-              gutterSize="none"
-              alignItems="flexStart"
-              responsive={false}
-              wrap>
-              {palette.palette.map((hexCode) => (
-                <ColorPaletteFlexItem
-                  className="guideColorPalette__swatch--notRound"
-                  hexCode={hexCode}
-                  key={hexCode}
-                />
-              ))}
-            </OuiFlexGroup>
-          </OuiFlexItem>
-          <OuiFlexItem>
-            <ColorPaletteCopyCode code={palette.code} />
-          </OuiFlexItem>
-        </OuiFlexGroup>
-        <OuiSpacer size="xl" />
-      </Fragment>
-    ))}
-    <OuiTitle size="xxs">
-      <h3>Behind text variant</h3>
-    </OuiTitle>
-    <OuiSpacer size="s" />
-    <OuiFlexGroup alignItems="center">
-      <OuiFlexItem grow={false} style={{ maxWidth: 240 }}>
-        <OuiFlexGrid columns={4} gutterSize="s">
-          {ouiPaletteColorBlindBehindText({ sortBy: 'natural' }).map(
-            (color, i) => (
-              <OuiFlexItem key={i} grow={false}>
-                <span>
-                  <OuiBadge color={color}>Text</OuiBadge>
-                </span>
-              </OuiFlexItem>
-            )
-          )}
-        </OuiFlexGrid>
-      </OuiFlexItem>
-      <OuiFlexItem>
-        <ColorPaletteCopyCode
-          textToCopy={"ouiPaletteColorBlindBehindText({ sortBy: 'natural' })"}
-          code={"ouiPaletteColorBlindBehindText({ sortBy: 'natural' })"}
-        />
-      </OuiFlexItem>
-    </OuiFlexGroup>
-  </Fragment>
-);
+export default () => {
+  const { theme } = useContext(ThemeContext);
+  // The theme stylesheet is swapped after the context update commits, so
+  // re-read the palette once the new CSS is in place.
+  const [, setCssVersion] = useState(0);
+  useEffect(() => {
+    setCssVersion((v) => v + 1);
+  }, [theme]);
+  return (
+    <Fragment>
+      {getCustomPalettes().map((palette) => (
+        <Fragment key={palette.title}>
+          <OuiTitle size="xxs">
+            <h3>{palette.title}</h3>
+          </OuiTitle>
+          <OuiSpacer size="s" />
+          <OuiFlexGroup alignItems="center">
+            <OuiFlexItem grow={false} style={{ maxWidth: 240 }}>
+              <OuiFlexGroup
+                className="guideColorPalette__swatchHolder"
+                gutterSize="none"
+                alignItems="flexStart"
+                responsive={false}
+                wrap>
+                {palette.palette.map((hexCode) => (
+                  <ColorPaletteFlexItem
+                    className="guideColorPalette__swatch--notRound"
+                    hexCode={hexCode}
+                    key={hexCode}
+                  />
+                ))}
+              </OuiFlexGroup>
+            </OuiFlexItem>
+            <OuiFlexItem>
+              <ColorPaletteCopyCode code={palette.code} />
+            </OuiFlexItem>
+          </OuiFlexGroup>
+          <OuiSpacer size="xl" />
+        </Fragment>
+      ))}
+      <OuiTitle size="xxs">
+        <h3>Behind text variant</h3>
+      </OuiTitle>
+      <OuiSpacer size="s" />
+      <OuiFlexGroup alignItems="center">
+        <OuiFlexItem grow={false} style={{ maxWidth: 240 }}>
+          <OuiFlexGrid columns={4} gutterSize="s">
+            {ouiPaletteColorBlindBehindText({ sortBy: 'natural' }).map(
+              (color, i) => (
+                <OuiFlexItem key={i} grow={false}>
+                  <span>
+                    <OuiBadge color={color}>Text</OuiBadge>
+                  </span>
+                </OuiFlexItem>
+              )
+            )}
+          </OuiFlexGrid>
+        </OuiFlexItem>
+        <OuiFlexItem>
+          <ColorPaletteCopyCode
+            textToCopy={"ouiPaletteColorBlindBehindText({ sortBy: 'natural' })"}
+            code={"ouiPaletteColorBlindBehindText({ sortBy: 'natural' })"}
+          />
+        </OuiFlexItem>
+      </OuiFlexGroup>
+    </Fragment>
+  );
+};

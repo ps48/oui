@@ -93,3 +93,13 @@ Under `prefers-reduced-motion: reduce` all of the above are disabled; state is s
 
 - Component API or markup changes.
 - Hardcoded colors inside OSD plugins. These are tracked separately as a seam audit, because they do not follow any OUI theme.
+
+## Categorical chart palette
+
+Charts take series colors from the JS `ouiPaletteColorBlind()` service. A theme can replace its 10 base colors by setting `--ouiPaletteColorBlind` on `:root` (exactly 10 hex values); classic themes set nothing and keep the classic palette. AMOLED sets it in `oui_amoled_palette.scss`, one list per mode, with hues from IBM Carbon's categorical sequences, and exports the active list as the `ouiThemePaletteColorBlind` theme variable so a host that runs JS before theme CSS loads (OSD's bootstrap) can set the property early. The magma ramp stays the sequential palette.
+
+`scripts/validate-amoled-viz.py` checks both lists: at least 3:1 against every surface of the mode, CIELAB dE of at least 12 between neighbouring series and at least 8 between any two series, under normal vision, protanopia, deuteranopia and tritanopia.
+
+## Modal and flyout exit
+
+`OuiOverlayMask` and `OuiFlyout` leave an inert, `aria-hidden` copy in the body when React unmounts them, tagged `-isClosing`, for the time a theme sets in `--ouiOverlayMaskExitDuration` / `--ouiFlyoutExitDuration`. AMOLED sets 150ms (modal zoom-out, flyout slide-out, overlay fade) under `prefers-reduced-motion: no-preference` only.

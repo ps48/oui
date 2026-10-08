@@ -76,6 +76,32 @@ export interface OuiPaletteColorBlindProps {
   sortShift?: string;
 }
 
+const CLASSIC_PALETTE_LENGTH = 10;
+
+/**
+ * Themes may replace the categorical base colors by setting the
+ * `--ouiPaletteColorBlind` custom property on `:root` to exactly 10 hex
+ * colors. Themes that do not set it (all classic themes) keep the classic
+ * palette, as does any non-browser environment.
+ */
+export const getThemePaletteColorBlind = (): string[] | undefined => {
+  if (
+    typeof window === 'undefined' ||
+    typeof document === 'undefined' ||
+    !document.documentElement ||
+    !window.getComputedStyle
+  ) {
+    return undefined;
+  }
+  const value = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue('--ouiPaletteColorBlind');
+  const colors = (value.match(/#[0-9a-fA-F]{6}\b/g) || []).map((c) =>
+    c.toUpperCase()
+  );
+  return colors.length === CLASSIC_PALETTE_LENGTH ? colors : undefined;
+};
+
 export const ouiPaletteColorBlind = ({
   rotations = 1,
   order = 'append',
@@ -85,7 +111,7 @@ export const ouiPaletteColorBlind = ({
 }: OuiPaletteColorBlindProps = {}): OuiPalette => {
   let colors: string[] = [];
 
-  let base = [
+  let base = getThemePaletteColorBlind() || [
     '#54B399', // 0 green
     '#6092C0', // 1 blue
     '#D36086', // 2 dark pink
