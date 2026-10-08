@@ -371,3 +371,10 @@ $ouiAmoledMenuHover: transparentize($ouiTextColor, .92);
   }
 }
 
+
+// 20. Checkable card: its control column uses the 'subdued' panel color,
+//     which is the page color. On a true-black page that reads as a hole cut
+//     into the card, so in dark mode lift it to the raised surface instead.
+.ouiCheckableCard .ouiPanel--subdued {
+  background-color: lightOrDarkTheme($ouiPageBackgroundColor, $ouiColorLightestShade);
+}
