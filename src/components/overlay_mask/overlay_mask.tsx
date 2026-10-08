@@ -44,6 +44,7 @@ import React, {
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { CommonProps, keysOf } from '../common';
+import { getThemeExitDuration, playExitGhost } from '../../services/exit_ghost';
 
 export interface OuiOverlayMaskInterface {
   /**
@@ -92,6 +93,13 @@ export const OuiOverlayMask: FunctionComponent<OuiOverlayMaskProps> = ({
 
     return () => {
       if (portalTarget) {
+        // Themes may opt into an exit animation (modal, flyout) by setting
+        // `--ouiOverlayMaskExitDuration` (ms) on `.ouiOverlayMask`.
+        playExitGhost(
+          portalTarget,
+          getThemeExitDuration(portalTarget, '--ouiOverlayMaskExitDuration'),
+          'ouiOverlayMask-isClosing'
+        );
         document.body.removeChild(portalTarget);
       }
     };

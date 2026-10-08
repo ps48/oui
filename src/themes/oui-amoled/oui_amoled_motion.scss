@@ -18,10 +18,9 @@
 //    mounted while `isOpen` flips, so a transition plays both ways.
 //  - Toast: real exit, OUI already fades out for TOAST_FADE_OUT_MS.
 //  - Tooltip: enter only; OUI unmounts on hide.
-//  - Modal / flyout: enter only. Consumers unmount these with
-//    `{isOpen && <OuiModal/>}`, so the component never sees a close it could
-//    animate; an exit needs a new API (e.g. an `isOpen` prop) and is out of
-//    scope for a theme.
+//  - Modal / flyout: real exit via an inert copy left in the body on
+//    unmount (services/exit_ghost), timed by --ouiOverlayMaskExitDuration
+//    and --ouiFlyoutExitDuration; classic themes do not set them.
 
 $ouiAmoledEaseOut: cubic-bezier(.16, 1, .3, 1);
 $ouiAmoledEaseIn: cubic-bezier(.7, 0, .84, 0);
@@ -50,7 +49,9 @@ $ouiAmoledEaseIn: cubic-bezier(.7, 0, .84, 0);
   }
 
   // Overlay: plain fade, slightly longer than the dialog so it settles under it.
+  // The exit duration opts into the inert exit copy (services/exit_ghost).
   .ouiOverlayMask {
+    --ouiOverlayMaskExitDuration: 150;
     animation: ouiAmoledFadeIn $ouiAnimSpeedNormal $ouiAmoledEaseOut;
   }
 
@@ -77,8 +78,72 @@ $ouiAmoledEaseIn: cubic-bezier(.7, 0, .84, 0);
 
   // Flyout: keep the side slide, just the smooth curve and no bounce.
   .ouiFlyout {
+    --ouiFlyoutExitDuration: 150;
     animation-timing-function: $ouiAmoledEaseOut;
   }
+
+  // Modal / flyout exit. OverlayMask and Flyout leave an inert visual copy
+  // (`-isClosing`) in the body for the duration set here, because consumers
+  // unmount the real component. Durations only exist under
+  // no-preference, so reduced-motion users get an instant close.
+  .ouiOverlayMask.ouiOverlayMask-isClosing {
+    animation: ouiAmoledFadeOut 150ms $ouiAmoledEaseIn forwards;
+
+    .ouiModal {
+      animation: ouiAmoledZoomOut 150ms $ouiAmoledEaseIn forwards;
+    }
+
+    .ouiFlyout {
+      animation: ouiAmoledFlyoutOutRight 150ms $ouiAmoledEaseIn forwards;
+    }
+
+    .ouiFlyout--left {
+      animation-name: ouiAmoledFlyoutOutLeft;
+    }
+  }
+
+  .ouiFlyout.ouiFlyout-isClosing {
+    animation: ouiAmoledFlyoutOutRight 150ms $ouiAmoledEaseIn forwards;
+
+    &.ouiFlyout--left {
+      animation-name: ouiAmoledFlyoutOutLeft;
+    }
+  }
+}
+
+@keyframes ouiAmoledFadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes ouiAmoledFlyoutOutRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(24%);
+  }
+}
+
+@keyframes ouiAmoledFlyoutOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-24%);
+  }
+}
+
+// Ghost copies never take input, whatever the theme.
+.ouiOverlayMask-isClosing,
+.ouiFlyout-isClosing {
+  pointer-events: none;
 }
 
 // Reduced motion: everything appears instantly; state is still conveyed by

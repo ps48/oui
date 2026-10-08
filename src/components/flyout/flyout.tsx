@@ -38,6 +38,7 @@ import React, {
   ComponentPropsWithRef,
   PropsWithChildren,
   MutableRefObject,
+  useRef,
 } from 'react';
 import classnames from 'classnames';
 
@@ -58,6 +59,7 @@ import { OuiI18n } from '../i18n';
 import { useResizeObserver } from '../observer/resize_observer';
 import { OuiOutsideClickDetector } from '../outside_click_detector';
 import { OuiPortal } from '../portal';
+import { getThemeExitDuration, playExitGhost } from '../../services/exit_ghost';
 
 const typeToClassNameMap = {
   push: 'ouiFlyout--push',
@@ -260,6 +262,29 @@ const OuiFlyout = forwardRef(
     const setRef = useCombinedRefs([setResizeRef, ref]);
     // TODO: Allow this hooke to be conditional
     const dimensions = useResizeObserver(resizeRef as Element);
+
+    /**
+     * Exit animation for flyouts without an overlay mask (with a mask, the
+     * mask plays the exit for both). Themes opt in by setting
+     * `--ouiFlyoutExitDuration` (ms) on `.ouiFlyout`; others unmount at once.
+     */
+    const latestNode = useRef<Element | null>(null);
+    latestNode.current = (resizeRef as unknown) as Element | null;
+    const ghostsItself = !(ownFocus && !isPushed);
+    const ghostsItselfRef = useRef(ghostsItself);
+    ghostsItselfRef.current = ghostsItself;
+    useEffect(
+      () => () => {
+        const node = latestNode.current as HTMLElement | null;
+        if (!ghostsItselfRef.current || !node) return;
+        playExitGhost(
+          node,
+          getThemeExitDuration(node, '--ouiFlyoutExitDuration'),
+          'ouiFlyout-isClosing'
+        );
+      },
+      []
+    );
 
     useEffect(() => {
       // This class doesn't actually do anything by OUI, but is nice to add for consumers (JIC)
