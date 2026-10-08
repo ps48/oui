@@ -89,3 +89,71 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
 :root {
   color-scheme: lightOrDarkTheme(light, dark);
 }
+
+// 8. Buttons (shadcn `default` / `outline` / `ghost`).
+//    - No underline on hover; shadcn signals hover with a fill change.
+//    - Medium weight label, no resting drop shadow.
+//    - Outline buttons get a neutral hairline border and a muted hover fill;
+//      the variant color stays on the label so danger/success still read.
+//    - Filled buttons dim slightly on hover instead of darkening the hue.
+//    - A subtle press scale gives tactile feedback (disabled under reduced motion).
+.ouiButton,
+.ouiButtonEmpty {
+  &:hover:not([class*='isDisabled']),
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.ouiButton {
+  font-weight: $ouiFontWeightMedium;
+  box-shadow: none;
+
+  &:hover,
+  &:active,
+  &:not([class*='isDisabled']):hover,
+  &:not([class*='isDisabled']):focus {
+    box-shadow: none;
+  }
+
+  &:not(.ouiButton--fill):not(.ouiButton--ghost):not([class*='isDisabled']) {
+    border-color: $ouiBorderColor;
+    background-color: $ouiColorEmptyShade;
+
+    &:hover,
+    &:focus,
+    &:focus-within {
+      background-color: $ouiColorLightestShade;
+    }
+  }
+
+  &.ouiButton--fill:not([class*='isDisabled']) {
+    &:hover,
+    &:focus,
+    &:focus-within {
+      filter: brightness(.92);
+    }
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px $ouiPageBackgroundColor, 0 0 0 4px transparentize($ouiColorPrimary, .4);
+  }
+
+  @include ouiCanAnimate {
+    transition:
+      background-color $ouiAnimSpeedFast $ouiAnimSlightResistance,
+      filter $ouiAnimSpeedFast $ouiAnimSlightResistance,
+      transform $ouiAnimSpeedExtraFast $ouiAnimSlightResistance;
+
+    &:active:not([class*='isDisabled']) {
+      transform: scale(.98);
+    }
+  }
+}
+
+.ouiButtonEmpty:not([class*='isDisabled']) {
+  &:hover,
+  &:focus {
+    background-color: transparentize($ouiTextColor, .94);
+  }
+}
