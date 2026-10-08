@@ -150,3 +150,98 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
     background-color: transparentize($ouiTextColor, .94);
   }
 }
+
+// 9. Menus and dropdowns (shadcn `dropdown-menu` / `command` items).
+//    Rows sit inside the panel with a small inset, highlight with a neutral
+//    rounded fill instead of a primary tint + underline, and keep the text
+//    color. Virtualized lists (selectable, combo box) keep their fixed row
+//    heights; the inset comes from a transparent border + padding-box clip.
+$ouiAmoledMenuHover: transparentize($ouiTextColor, .92);
+
+.ouiContextMenuPanel {
+  padding: $ouiSizeXS;
+}
+
+.ouiContextMenuItem {
+  border-radius: $ouiBorderRadiusSmall;
+  padding: $ouiSizeS ($ouiSizeS + $ouiSizeXS);
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+
+  &:hover:not(.ouiContextMenuItem-isDisabled),
+  &:focus {
+    background-color: $ouiAmoledMenuHover;
+  }
+
+  &--small {
+    padding: ($ouiSizeXS + 2px) $ouiSizeS;
+  }
+}
+
+.ouiSelectableListItem {
+  border: $ouiSizeXS solid transparent;
+  border-width: 2px $ouiSizeXS;
+  border-radius: ($ouiBorderRadiusSmall + $ouiSizeXS);
+  background-clip: padding-box;
+
+  &:not(:last-of-type) {
+    border-bottom: 2px solid transparent;
+  }
+
+  &-isFocused:not([aria-disabled='true']),
+  &:hover:not([aria-disabled='true']) {
+    color: $ouiTextColor;
+    background-color: $ouiAmoledMenuHover;
+
+    .ouiSelectableListItem__text {
+      text-decoration: none;
+    }
+  }
+}
+
+// Combo box rows render as FilterSelectItem.
+.ouiComboBoxOptionsList .ouiFilterSelectItem {
+  border: solid transparent;
+  border-width: 2px $ouiSizeXS;
+  border-radius: ($ouiBorderRadiusSmall + $ouiSizeXS);
+  background-clip: padding-box;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:focus,
+  &-isFocused {
+    color: $ouiTextColor;
+    background-color: $ouiAmoledMenuHover;
+    text-decoration: none;
+  }
+}
+
+.ouiComboBoxOption {
+  border-width: 2px $ouiSizeXS;
+  border-radius: ($ouiBorderRadiusSmall + $ouiSizeXS);
+  background-clip: padding-box;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &.ouiComboBoxOption-isFocused {
+    color: $ouiTextColor;
+    background-color: $ouiAmoledMenuHover;
+  }
+}
+
+.ouiSuperSelect__item {
+  border-radius: $ouiBorderRadiusSmall;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background-color: $ouiAmoledMenuHover;
+  }
+}
