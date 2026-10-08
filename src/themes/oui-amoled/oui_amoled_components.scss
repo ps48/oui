@@ -271,3 +271,28 @@ $ouiAmoledMenuHover: transparentize($ouiTextColor, .92);
 .ouiSwitch .ouiSwitch__body {
   transition: background-color $ouiAnimSpeedNormal $ouiAnimSlightResistance;
 }
+
+// 12. Callout (shadcn `Alert`): rounded card with a quiet tinted hairline all
+//     the way round instead of a heavy left bar; the soft tinted fill stays so
+//     severity still reads at a glance.
+@each $name, $color in $ouiCallOutTypes {
+  .ouiCallOut--#{$name} {
+    border: 1px solid transparentize($color, .65);
+    border-radius: $ouiBorderRadius;
+  }
+}
+
+// 13. Toast (shadcn `Sonner`): rounded panel with a hairline and soft shadow;
+//     the severity color moves from a 2px top bar to a slim inset left accent.
+.ouiToast {
+  border: 1px solid $ouiBorderColor;
+  border-radius: $ouiBorderRadius;
+  overflow: hidden;
+}
+
+@each $name, $color in $ouiToastTypes {
+  .ouiToast--#{$name} {
+    border-top: 1px solid $ouiBorderColor;
+    box-shadow: inset 3px 0 0 $color, 0 4px 12px transparentize($ouiShadowColor, .85), 0 1px 3px transparentize($ouiShadowColor, .9);
+  }
+}
