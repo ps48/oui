@@ -34,6 +34,10 @@ $ouiFormBackgroundColor: $ouiColorEmptyShade;
 $ouiFormBorderColor: $ouiColorLightShade;
 $ouiFormInputGroupLabelBackground: $ouiColorLightestShade;
 
+// shadcn checkbox: 4px corners, same hairline as inputs.
+$ouiCheckboxBorderRadius: 4px;
+$ouiFormCustomControlBorderColor: $ouiColorLightShade;
+
 // Cozy density (Honeycomb-style breathing room). Deliberately NOT changing the
 // $ouiSize base unit: OSD layouts and plugin code compute offsets from it, so a
 // global bump would shift every page. Only container padding grows.

@@ -245,3 +245,29 @@ $ouiAmoledMenuHover: transparentize($ouiTextColor, .92);
     background-color: $ouiAmoledMenuHover;
   }
 }
+
+// 10. Table headers (shadcn `TableHead`): muted text, medium weight, no bold.
+.ouiTableHeaderCell .ouiTableCellContent__text,
+.ouiTableHeaderCellCheckbox {
+  color: $ouiTextSubduedColor;
+  font-weight: $ouiFontWeightMedium;
+}
+
+// 11. Switch (shadcn): borderless thumb with a soft shadow, and a smooth
+//     slide instead of OUI's overshoot bounce.
+// In dark mode the thumb is light so it reads on the dark track without a border.
+.ouiSwitch .ouiSwitch__thumb {
+  border-color: transparent;
+  background-color: lightOrDarkTheme($ouiColorEmptyShade, $ouiColorDarkestShade);
+  box-shadow: 0 1px 2px transparentize($ouiShadowColor, .7), 0 1px 1px transparentize($ouiShadowColor, .8);
+  transition-timing-function: $ouiAnimSlightResistance;
+}
+
+.ouiSwitch.ouiSwitch--compressed .ouiSwitch__thumb,
+.ouiSwitch.ouiSwitch--mini .ouiSwitch__thumb {
+  background-color: lightOrDarkTheme($ouiColorEmptyShade, $ouiColorDarkestShade);
+}
+
+.ouiSwitch .ouiSwitch__body {
+  transition: background-color $ouiAnimSpeedNormal $ouiAnimSlightResistance;
+}
