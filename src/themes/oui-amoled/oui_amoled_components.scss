@@ -296,3 +296,78 @@ $ouiAmoledMenuHover: transparentize($ouiTextColor, .92);
     box-shadow: inset 3px 0 0 $color, 0 4px 12px transparentize($ouiShadowColor, .85), 0 1px 3px transparentize($ouiShadowColor, .9);
   }
 }
+
+// ---------------------------------------------------------------------------
+// Honeycomb pass: calmer, more composed chrome. Heights that consumers lay
+// out against ($ouiHeaderHeight, $ouiSize) are deliberately left alone.
+// ---------------------------------------------------------------------------
+
+// 14. Header: a single hairline separates it from the page; no drop shadow.
+.ouiHeader {
+  box-shadow: none;
+}
+
+// 15. Side nav: rows become soft rounded pills (neutral hover, tinted
+//     selection) instead of underlined text links. The negative inline margin
+//     keeps label alignment identical to the classic layout.
+.ouiSideNavItemButton {
+  border-radius: $ouiBorderRadiusSmall;
+  padding: $ouiSizeXS $ouiSizeS;
+  margin: 1px (-$ouiSizeS);
+  width: calc(100% + #{$ouiSizeS * 2});
+  transition: background-color $ouiAnimSpeedFast ease-out, color $ouiAnimSpeedFast ease-out;
+
+  &.ouiSideNavItemButton--isClickable:not(:disabled):hover,
+  &.ouiSideNavItemButton--isClickable:not(:disabled):focus {
+    background-color: transparentize($ouiColorLightShade, .6);
+
+    .ouiSideNavItemButton__label {
+      text-decoration: none;
+    }
+  }
+
+  &.ouiSideNavItemButton-isSelected {
+    background-color: transparentize($ouiColorPrimary, .88);
+    font-weight: $ouiFontWeightMedium;
+
+    .ouiSideNavItemButton__label {
+      text-decoration: none;
+    }
+  }
+}
+
+// 16. Breadcrumbs: muted trail, current page in full text color.
+.ouiBreadcrumbs:not(.ouiBreadcrumbs__inPopover) .ouiBreadcrumbWrapper:not(.ouiBreadcrumbWrapper--last) .ouiBreadcrumb {
+  color: $ouiTextSubduedColor;
+}
+
+.ouiBreadcrumbs:not(.ouiBreadcrumbs__inPopover) .ouiBreadcrumbWrapper:not(.ouiBreadcrumbWrapper--last) .ouiBreadcrumb:hover {
+  color: $ouiTextColor;
+}
+
+// 17. Form rows: a little more air between label and control, and between
+//     stacked rows.
+.ouiFormRow__labelWrapper {
+  margin-bottom: $ouiSizeXS + 2px;
+}
+
+.ouiFormRow + .ouiFormRow {
+  margin-top: $ouiSize + $ouiSizeXS;
+}
+
+// 18. List group: roomier rounded rows, neutral hover without underline.
+.ouiListGroupItem__text,
+.ouiListGroupItem__button {
+  padding: ($ouiSizeXS + 2px) ($ouiSizeS + 2px);
+}
+
+.ouiListGroupItem {
+  transition: background-color $ouiAnimSpeedFast ease-out;
+
+  &.ouiListGroupItem-isClickable:hover .ouiListGroupItem__button,
+  .ouiListGroupItem__button:hover,
+  .ouiListGroupItem__button:focus {
+    text-decoration: none;
+  }
+}
+
