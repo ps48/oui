@@ -96,3 +96,78 @@ $ouiAmoledEaseIn: cubic-bezier(.7, 0, .84, 0);
     transition: opacity 1ms linear, visibility 1ms linear;
   }
 }
+
+// Motion pass 2: accordion, tabs, attached dropdown lists, hover feedback.
+@keyframes ouiAmoledSlideDownIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ouiAmoledTabIndicatorIn {
+  0% {
+    opacity: 0;
+    transform: scaleX(.4);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  // Accordion: OUI already animates height + opacity both ways (it measures
+  // the content in JS); swap the bouncy curve for a smooth ease-out and let
+  // the content settle down 4px as it opens.
+  .ouiAccordion__childWrapper {
+    transition-timing-function: $ouiAmoledEaseOut;
+  }
+
+  .ouiAccordion.ouiAccordion-isOpen .ouiAccordion__childWrapper > * {
+    animation: ouiAmoledSlideDownIn $ouiAnimSpeedNormal $ouiAmoledEaseOut;
+  }
+
+  .ouiAccordion__iconWrapper .ouiAccordion__icon {
+    transition-timing-function: $ouiAmoledEaseOut;
+  }
+
+  // Tabs: the selected indicator grows out from its centre instead of
+  // OUI's bouncy wipe; hover color eases.
+  .ouiTab.ouiTab-isSelected::after {
+    animation: ouiAmoledTabIndicatorIn $ouiAnimSpeedNormal $ouiAmoledEaseOut;
+  }
+
+  .ouiTab {
+    transition-timing-function: $ouiAmoledEaseOut;
+  }
+
+  // Attached dropdown lists (combo box): these popovers skip the zoom (they
+  // are glued to their input), so give the list a short drop-in.
+  .ouiComboBoxOptionsList {
+    animation: ouiAmoledSlideDownIn $ouiAnimSpeedFast $ouiAmoledEaseOut;
+  }
+
+  // Hover feedback: list rows, menu rows and side nav pills ease their
+  // background instead of snapping.
+  .ouiContextMenuItem,
+  .ouiSelectableListItem,
+  .ouiListGroupItem,
+  .ouiSideNavItemButton {
+    transition: background-color $ouiAnimSpeedFast ease-out, color $ouiAnimSpeedFast ease-out;
+  }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .ouiAccordion.ouiAccordion-isOpen .ouiAccordion__childWrapper > *,
+  .ouiTab.ouiTab-isSelected::after,
+  .ouiComboBoxOptionsList {
+    animation: none;
+  }
+}
