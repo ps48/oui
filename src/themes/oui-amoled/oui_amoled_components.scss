@@ -23,9 +23,7 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
   &:focus-within {
     background-image: none;
     background-size: 0 0;
-    box-shadow:
-      inset 0 0 0 1px $ouiColorPrimary,
-      0 0 0 3px transparentize($ouiColorPrimary, .75);
+    box-shadow: inset 0 0 0 1px $ouiColorPrimary, 0 0 0 3px transparentize($ouiColorPrimary, .75);
   }
 }
 
@@ -51,9 +49,7 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
   }
 
   &:focus-within {
-    box-shadow:
-      inset 0 0 0 1px $ouiColorPrimary,
-      0 0 0 3px transparentize($ouiColorPrimary, .75);
+    box-shadow: inset 0 0 0 1px $ouiColorPrimary, 0 0 0 3px transparentize($ouiColorPrimary, .75);
   }
 }
 
@@ -87,7 +83,7 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
 // 7. Native widgets (number spinners, date/time pickers, scrollbars) follow
 //    the theme instead of rendering as bright OS-default squares.
 :root {
-  color-scheme: lightOrDarkTheme(light, dark);
+  color-scheme: lightOrDarkTheme(light, dark); // sass-lint:disable-line no-misspelled-properties
 }
 
 // 8. Buttons (shadcn `default` / `outline` / `ghost`).
@@ -140,10 +136,7 @@ $ouiAmoledFormControls: '.ouiFieldText, .ouiFieldNumber, .ouiFieldPassword, .oui
   }
 
   @include ouiCanAnimate {
-    transition:
-      background-color $ouiAnimSpeedFast $ouiAnimSlightResistance,
-      filter $ouiAnimSpeedFast $ouiAnimSlightResistance,
-      transform $ouiAnimSpeedExtraFast $ouiAnimSlightResistance;
+    transition: background-color $ouiAnimSpeedFast $ouiAnimSlightResistance, filter $ouiAnimSpeedFast $ouiAnimSlightResistance, transform $ouiAnimSpeedExtraFast $ouiAnimSlightResistance;
 
     &:active:not([class*='isDisabled']) {
       transform: scale(.98);

@@ -59,19 +59,11 @@ $ouiAmoledEaseIn: cubic-bezier(.7, 0, .84, 0);
   // `transform` OUI already sets instead of overwriting it.
   .ouiPopover__panel:not(.ouiPopover__panel-isAttached) {
     scale: .96;
-    transition:
-      opacity $ouiAnimSpeedFast $ouiAmoledEaseIn,
-      scale $ouiAnimSpeedFast $ouiAmoledEaseIn,
-      transform $ouiAnimSpeedFast $ouiAmoledEaseIn,
-      visibility 0s linear $ouiAnimSpeedFast;
+    transition: opacity $ouiAnimSpeedFast $ouiAmoledEaseIn, scale $ouiAnimSpeedFast $ouiAmoledEaseIn, transform $ouiAnimSpeedFast $ouiAmoledEaseIn, visibility 0s linear $ouiAnimSpeedFast;
 
     &.ouiPopover__panel-isOpen {
       scale: 1;
-      transition:
-        opacity $ouiAnimSpeedNormal $ouiAmoledEaseOut,
-        scale $ouiAnimSpeedNormal $ouiAmoledEaseOut,
-        transform $ouiAnimSpeedNormal $ouiAmoledEaseOut,
-        visibility 0s;
+      transition: opacity $ouiAnimSpeedNormal $ouiAmoledEaseOut, scale $ouiAnimSpeedNormal $ouiAmoledEaseOut, transform $ouiAnimSpeedNormal $ouiAmoledEaseOut, visibility 0s;
     }
   }
 
